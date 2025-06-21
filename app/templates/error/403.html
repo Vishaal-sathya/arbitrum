@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Access Denied</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f1f3f6;
+        margin: 0;
+        padding: 0;
+      }
+
+      .access-denied-container {
+        max-width: 500px;
+        margin: 120px auto;
+        background: #fff;
+        border-radius: 20px;
+        padding: 50px 40px;
+        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.05),
+          -10px -10px 30px rgba(255, 255, 255, 0.9);
+        text-align: center;
+      }
+
+      .denied-icon {
+        font-size: 60px;
+        color: rgb(68, 138, 115);
+        margin-bottom: 20px;
+      }
+
+      .denied-title {
+        font-size: 26px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .denied-message {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 30px;
+      }
+
+      .btn-home {
+        font-weight: 500;
+        font-size: 16px;
+        color: white;
+        background-color: rgb(68, 138, 115);
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-home:hover {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "const/header.html" %}
+
+    <div class="access-denied-container">
+      <i class="fas fa-ban denied-icon"></i>
+      <h3 class="denied-title">Access Denied</h3>
+      <p class="denied-message">You don’t have permission to view this page.</p>
+      <a href="{{ url_for('main.home') }}" class="btn-home">Back to Home</a>
+    </div>
+  </body>
+</html>

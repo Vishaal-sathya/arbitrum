@@ -1,0 +1,104 @@
+<style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ccc;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .header-left {
+    font-weight: 500;
+    font-size: 40px;
+    color: black;
+  }
+
+  .header-center {
+    display: flex;
+    gap: 25px;
+  }
+
+  .header-center a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: black;
+    transition: color 0.3s;
+  }
+
+  .header-center a:hover {
+    color: rgb(68, 138, 115);
+  }
+
+  .header-right form,
+  .header-right a {
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    padding: 8px 16px;
+    border: 2px solid black;
+    border-radius: 6px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .header-right form:hover,
+  .header-right a:hover {
+    background-color: rgb(68, 138, 115);
+    color: white;
+    border-color: rgb(68, 138, 115);
+  }
+
+  .header-right form {
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  .header-right button {
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    padding: 8px 16px;
+    border: 2px solid black;
+    border-radius: 6px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .header-right button:hover {
+    background-color: rgb(68, 138, 115);
+    color: white;
+    border-color: rgb(68, 138, 115);
+  }
+</style>
+
+<header class="header">
+  <a
+    href="{{ url_for('main.home') }}"
+    style="text-decoration: none; color: inherit"
+    ><div class="header-left">Arbitrum</div></a
+  >
+  <nav class="header-center">
+    <a href="{{ url_for('main.home') }}">Home</a>
+    <a href="{{ url_for('search.search_page') }}">Search</a>
+    <a href="{{ url_for('chatbot.chatbot_page') }}">Arbiter.AI</a>
+    <a href="{{ url_for('profile.update_profile') }}">Profile</a>
+  </nav>
+  <div class="header-right">
+    {% if current_user.is_authenticated %}
+    <form action="{{ url_for('auth.logout') }}" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+    {% else %}
+    <a href="{{ url_for('auth.login') }}">Login</a>
+    {% endif %}
+  </div>
+</header>

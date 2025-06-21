@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arbiter.AI</title>
+
+    <!-- Bootstrap (Optional) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #f2f4f8;
+      }
+
+      .container-split {
+        display: flex;
+        height: 90vh;
+        background-color: white;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .left-panel,
+      .right-panel {
+        padding: 30px;
+        overflow-y: auto;
+      }
+
+      .left-panel {
+        width: 50%;
+        background-color: #f7f9fc;
+        box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.05),
+          inset -4px -4px 10px rgba(255, 255, 255, 0.8);
+      }
+
+      .candidate-card {
+        border-radius: 12px;
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
+      }
+
+      .right-panel {
+        width: 50%;
+        background-color: #f7f9fc;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.05),
+          inset -4px -4px 10px rgba(255, 255, 255, 0.8);
+      }
+
+      .chat-window {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .chat-message {
+        display: flex;
+        align-items: flex-start;
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 16px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
+        background-color: white;
+      }
+
+      .chat-message .icon {
+        font-size: 20px;
+        margin-right: 12px;
+        background-color: #e0e0e0;
+        color: #444;
+        border-radius: 50%;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 38px;
+        min-height: 38px;
+      }
+
+      .chat-message.bot {
+        align-self: flex-start;
+        flex-direction: row;
+      }
+
+      .chat-message.user {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+        background-color: rgb(68, 138, 115);
+        color: white;
+      }
+
+      .chat-message.user .icon {
+        background-color: white;
+        color: rgb(68, 138, 115);
+        margin-left: 12px;
+        margin-right: 0;
+      }
+
+      .chat-input-area {
+        padding: 20px 20px 5px 20px;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .chat-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+
+      .chat-row.bot {
+        flex-direction: row;
+      }
+
+      .chat-row.user {
+        flex-direction: row-reverse;
+      }
+
+      .chat-icon {
+        width: 40px;
+        height: 40px;
+        margin: 0 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 50%;
+        font-size: 18px;
+        color: rgb(68, 138, 115);
+      }
+
+      .form-section label {
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #333;
+      }
+
+      .form-section .form-control {
+        border-radius: 12px;
+        border: none;
+        padding: 10px 15px;
+        box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.05),
+          inset -4px -4px 10px rgba(255, 255, 255, 0.8);
+        background-color: #f7f9fc;
+        font-size: 15px;
+      }
+
+      .form-section .form-control:focus {
+        background-color: #fff;
+        box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.08),
+          inset -2px -2px 6px rgba(255, 255, 255, 1);
+      }
+
+      .submit-button {
+        background-color: rgb(68, 138, 115);
+        border: 2px solid rgb(68, 138, 115);
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 10px 22px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .submit-button:hover {
+        background-color: white;
+        color: rgb(68, 138, 115);
+      }
+
+      .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        z-index: 1;
+        position: relative;
+      }
+
+      .profile-frame {
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border: 2px dashed rgb(68, 138, 115);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .profile-name {
+        font-weight: 500;
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+
+      .profile-college {
+        font-size: 14px;
+        color: #555;
+        font-weight: 400;
+        margin-bottom: 10px;
+      }
+
+      .selected-title {
+        font-family: "Poppins", sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        color: black;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "const/header.html" %}
+    <div class="container-split">
+      <!-- Left Panel: Candidate Info -->
+      <div class="left-panel">
+        <h5 class="selected-title mb-3">Selected Candidates</h5>
+
+        {% if selected_users %} {% for user in selected_users %}
+        <a
+          href="{{ url_for('view_profile.view_profile', user_id=user.id)}}"
+          style="text-decoration: none; color: inherit"
+        >
+          <div class="candidate-card d-flex align-items-center gap-4 mb-4">
+            <!-- Profile Image -->
+            <div
+              style="
+                width: 80px;
+                height: 80px;
+                flex-shrink: 0;
+                position: relative;
+              "
+            >
+              <img
+                src="{{ url_for('static', filename='profile_photos/' ~ user.profile.photo) }}"
+                alt="Profile"
+                class="rounded-circle"
+                style="
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  border: 3px solid #ccc;
+                "
+              />
+            </div>
+
+            <!-- Candidate Info -->
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ user.username }}</h6>
+              <p class="text-muted mb-1" style="font-size: 14px">
+                {{ user.profile.college }}
+              </p>
+              <div class="d-flex flex-wrap gap-1">
+                {% for user_skill in user.skills %}
+                <span
+                  style="
+                    background-color: rgb(240, 250, 245);
+                    border-radius: 10px;
+                    padding: 3px 10px;
+                    font-size: 12px;
+                    color: rgb(68, 138, 115);
+                    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.04),
+                      inset -2px -2px 6px rgba(255, 255, 255, 0.8);
+                  "
+                >
+                  {{ user_skill.skill.skill }}
+                </span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </a>
+        {% endfor %} {% else %}
+        <p class="text-muted">No candidates matched this query.</p>
+        {% endif %}
+      </div>
+
+      <!-- Right Panel: Chat Interface -->
+      <div class="right-panel">
+        <div class="chat-window">
+          {% for entry in chat_history %}
+          <div class="chat-row user">
+            <div class="chat-icon"><i class="fas fa-user"></i></div>
+            <div class="chat-message user">{{ entry.user }}</div>
+          </div>
+
+          <div class="chat-row bot">
+            <div class="chat-icon"><i class="fas fa-robot"></i></div>
+            <div class="chat-message bot">{{ entry.bot }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="chat-input-area">
+          <!-- <form method="POST" class="form-section d-flex gap-3">
+            <input
+              type="text"
+              class="form-control w-100"
+              name="query"
+              placeholder="Type your message..."
+            />
+            <button type="submit" class="submit-button">Send</button>
+          </form> -->
+          <form
+            method="POST"
+            class="form-section d-flex gap-3"
+            action="{{ url_for('chatbot.chatbot_page')}}"
+          >
+            {{ form.hidden_tag() }} {{ form.input(class="form-control w-100") }}
+            {{ form.submit_input(class="submit-button") }}
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

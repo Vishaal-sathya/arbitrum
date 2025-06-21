@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verify Email</title>
+
+    <!-- Required Styles and Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f1f3f6;
+        margin: 0;
+        padding: 0;
+      }
+
+      .check-email-container {
+        max-width: 500px;
+        margin: 120px auto;
+        background: #fff;
+        border-radius: 20px;
+        padding: 50px 40px;
+        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.05),
+          -10px -10px 30px rgba(255, 255, 255, 0.9);
+        text-align: center;
+      }
+
+      .check-icon {
+        font-size: 48px;
+        color: rgb(68, 138, 115);
+        margin-bottom: 20px;
+      }
+
+      .check-email-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .check-email-message {
+        font-size: 16px;
+        color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    {% include "const/header.html" %}
+
+    <div class="check-email-container">
+      <i class="fas fa-envelope-circle-check check-icon"></i>
+      <h3 class="check-email-title">Check your email</h3>
+      <p class="check-email-message">
+        We’ve sent you a verification link. Please verify your email to
+        continue.
+      </p>
+    </div>
+  </body>
+</html>

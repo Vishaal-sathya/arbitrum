@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - User Management</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        form { margin: 0; }
+        input, select { width: 100%; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel - Manage Users</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user, form in user_forms %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin.edit_user') }}">
+                        {{ form.user_id(value=user.id) }}
+                        {{ form.username(value=user.username) }}
+                </td>
+                <td>{{ form.email(value=user.email) }}</td>
+                <td>{{ form.role(value=user.role) }}</td>
+                <td>
+                    {{ form.update(class_="btn") }}
+                    {{ form.delete(class_="btn") }}
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
