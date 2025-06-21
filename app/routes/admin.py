@@ -5,6 +5,9 @@ from flask_login import current_user
 from utils.decorators import role_required
 from app.forms import AdminForm
 from werkzeug.security import generate_password_hash
+import os
+import subprocess
+import sys
 
 admin_bp = Blueprint('admin',__name__)
 
@@ -47,3 +50,23 @@ def push_admin():
         db.session.add(new_admin)
         db.session.commit()
     return " "
+
+
+
+
+@admin_bp.route('/admin/rebuild-vectors')
+@role_required(['admin'])
+def rebuild_vectors():
+    project_root = os.path.abspath(os.path.dirname(__file__))  # /path/to/app
+    root_dir = os.path.abspath(os.path.join(project_root, '..', '..'))  # two levels up
+    script_path = os.path.join(root_dir, "build_vector_db_runner.py")
+
+    try:
+        subprocess.run([sys.executable, script_path], check=True)
+        flash("Vector database rebuilt successfully.", "success")
+    except subprocess.CalledProcessError as e:
+        flash(f"Error rebuilding vector DB: {e}", "danger")
+
+    return redirect(url_for('admin.edit_user'))
+
+
